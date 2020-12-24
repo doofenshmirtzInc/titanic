@@ -33,3 +33,12 @@ Index(['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp',
        'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked'],
       dtype='object')
 Index(['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'], dtype='object')
+            Age     SibSp     Parch      Fare
+Age    1.000000 -0.308247 -0.189119  0.096067
+SibSp -0.308247  1.000000  0.414838  0.159651
+Parch -0.189119  0.414838  1.000000  0.216225
+Fare   0.096067  0.159651  0.216225  1.000000
+                Age       Fare     Parch     SibSp
+Survived                                          
+0         30.626179  22.117887  0.329690  0.553734
+1         28.343690  48.395408  0.464912  0.473684

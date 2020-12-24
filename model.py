@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
 import pandas as pd
 import sys
 
@@ -26,6 +27,18 @@ import sys
 # model comparison with cv
 
 
+#### OVERVIEW OF THE STEPS
+# understand shape of the data (histograms, boxplots, etc)
+# data cleaning
+# data exploration
+# feature engineering
+# data preprocessing
+# build basic model
+# model tuning
+# ensemble model building
+# results
+
+
 
 
 
@@ -49,6 +62,24 @@ def main():
         plt.title(i)
         plt.show()
 
+
+
+    print(num_col.corr())
+    sns.heatmap(num_col.corr())
+    plt.show()
+
+
+    #pivot table gives the average value of each category for each cat in the index cat
+    pt = pd.pivot_table(train, index = 'Survived', values = ['Age', 'SibSp', 'Parch', 'Fare'])
+    print(pt)
+
+
+    for i in cat_col.columns:
+        sns.barplot(cat_col[i].value_counts().index, cat_col[i].value_counts()).set_title(i)
+        plt.show()
+
+
+    print(pd.pivot_table(train, index = 'Survived', columns = ''))
 
 
 

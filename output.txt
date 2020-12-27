@@ -9,6 +9,7 @@ min       1.000000    0.000000    1.000000  ...    0.000000    0.000000    0.000
 max     891.000000    1.000000    3.000000  ...    8.000000    6.000000  512.329200
 
 [8 rows x 7 columns]
+
 <class 'pandas.core.frame.DataFrame'>
 RangeIndex: 891 entries, 0 to 890
 Data columns (total 12 columns):
@@ -29,16 +30,123 @@ Data columns (total 12 columns):
 dtypes: float64(2), int64(5), object(5)
 memory usage: 83.7+ KB
 None
+
 Index(['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp',
        'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked'],
       dtype='object')
+
 Index(['PassengerId', 'Survived', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'], dtype='object')
-            Age     SibSp     Parch      Fare
-Age    1.000000 -0.308247 -0.189119  0.096067
-SibSp -0.308247  1.000000  0.414838  0.159651
-Parch -0.189119  0.414838  1.000000  0.216225
-Fare   0.096067  0.159651  0.216225  1.000000
+
+
                 Age       Fare     Parch     SibSp
 Survived                                          
 0         30.626179  22.117887  0.329690  0.553734
 1         28.343690  48.395408  0.464912  0.473684
+Pclass      1   2    3
+Survived              
+0          80  97  372
+1         136  87  119
+
+Sex       female  male
+Survived              
+0             81   468
+1            233   109
+
+Embarked   C   Q    S
+Survived             
+0         75  47  427
+1         93  30  217
+
+0       NaN
+1       C85
+2       NaN
+3      C123
+4       NaN
+       ... 
+886     NaN
+887     B42
+888     NaN
+889    C148
+890     NaN
+Name: Cabin, Length: 891, dtype: object
+0    687
+1    180
+2     16
+3      6
+4      2
+Name: cabin_multiple, dtype: int64
+cabin_multiple      0      1    2    3    4
+Survived                                   
+0               481.0   58.0  7.0  3.0  NaN
+1               206.0  122.0  9.0  3.0  2.0
+n    687
+C     59
+B     47
+D     33
+E     32
+A     15
+F     13
+G      4
+T      1
+Name: cabin_adv, dtype: int64
+cabin_adv    A     B     C     D     E    F    G    T      n
+Survived                                                    
+0          8.0  12.0  24.0   8.0   8.0  5.0  2.0  1.0  481.0
+1          7.0  35.0  35.0  25.0  24.0  8.0  2.0  NaN  206.0
+1    661
+0    230
+Name: numeric_ticket, dtype: int64
+0            665
+pc            60
+ca            41
+a5            21
+stono2        18
+sotonoq       15
+scparis       11
+wc            10
+a4             7
+soc            6
+fcc            5
+c              5
+pp             3
+wep            3
+sopp           3
+swpp           2
+scah           2
+sotono2        2
+ppp            2
+scow           1
+sca4           1
+as             1
+fc             1
+sc             1
+sp             1
+fa             1
+scahbasle      1
+sop            1
+casoton        1
+Name: ticket_letters, dtype: int64
+ticket_letters      0   a4    a5   as    c  ...   sp  stono2  swpp   wc  wep
+Survived                                    ...                             
+0               410.0  7.0  19.0  1.0  3.0  ...  1.0    10.0   NaN  9.0  2.0
+1               255.0  NaN   2.0  NaN  2.0  ...  NaN     8.0   2.0  1.0  1.0
+
+[2 rows x 29 columns]
+Mr              517
+Miss            182
+Mrs             125
+Master           40
+Dr                7
+Rev               6
+Col               2
+Major             2
+Mlle              2
+Jonkheer          1
+Don               1
+Lady              1
+Capt              1
+Ms                1
+Sir               1
+the Countess      1
+Mme               1
+Name: name_title, dtype: int64

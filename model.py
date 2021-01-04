@@ -51,30 +51,39 @@ import pandas as pd
 # embarked: city of leave; C = cherbourg, Q = queenstown, S = southampton
 
 
-def basic_info(df: pd.DataFrame):
-    print('shape of data...........')
-    print(df.shape)
 
-    print('\ncolumns.........')
-    print(df.columns)
+# the pandas pivot table
+# data: dataframe to be counted/aggregated
+# index: column/values used to index the data aggregated
+# values: columns of train to count
+# aggrfunc: way to make count; default='mean', 'count' is often useful
 
-    print('\nhead of the data.........')
-    # makes df print all cols so can scroll through and see values for all columns
+
+def basic_info(train: pd.DataFrame):
+    print('shape: ', train.shape)
+
+    print('\ncolumns:')
+    print('\t', *train.columns)
+
+    print('\ntrain info...............')
+    print( train.info() )
+    print('\ntrain description...............')
     pd.set_option('max_columns', None)
-    print(df.head())
-
-    #print('value_counts..............')
-    # passenger id is useless col
-    #print(df.value_counts(df['PassengerId'], sort=False))
-    #for col in df.columns:
-        #print(df.value_counts(df[col]))
-
-    print('\ndf info...............')
-    print( df.info() )
-    print('\ndf description...............')
-    print( df.describe() )
+    print( train.describe() )
     print('\nGetting numerical columns of the data...')
-    print(df.describe().columns)
+    print(train.describe().columns)
+
+
+
+def var_formats(train: pd.DataFrame):
+    for col in train.columns:
+        print('head:\t', col)
+        print(train[col].head())
+        print('\nvalue counts:', col)
+        print(train.value_counts(train[col]))
+        print('\n\n')
+
+
 
 
 def hist(numerical_data):
@@ -90,17 +99,7 @@ def bar_charts(categorical_data):
         plot.show()
 
 
-
-def main(train: pd.DataFrame):
-
-    numerical_data = train[['Age', 'SibSp', 'Parch', 'Fare']]
-    categorical_data = train[['Survived', 'Pclass', 'Sex', 'Ticket', 'Cabin', 'Embarked']]
-    print('head of the numerical data.........')
-    print(numerical_data.head())
-    print('head of the categorical data.........')
-    print(categorical_data.head())
-
-
+def numerical_visualizations(train: pd.DataFrame, numerical_data):
     # histograms/bar charts
     hist(numerical_data)
 
@@ -110,19 +109,15 @@ def main(train: pd.DataFrame):
     plot.show()
 
 
-    # the pandas pivot table
-    # data: dataframe to be counted/aggregated
-    # index: column/values used to index the data aggregated
-    # values: columns of df to count
-    # aggrfunc: way to make count; default='mean', 'count' is often useful
-    pt = pd.pivot_table(train, index = 'Survived', values = numerical_data)
-    print()
-    print(pt)
-    print()
+def main(train: pd.DataFrame):
+
+    numerical_data = train[['Age', 'SibSp', 'Parch', 'Fare']]
+    categorical_data = train[['Survived', 'Pclass', 'Sex', 'Ticket', 'Cabin', 'Embarked']]
+
+    numerical_visualizations(train, numerical_data)
+    print( pd.pivot_table(train, index = 'Survived', values = numerical_data) )
 
     bar_charts(categorical_data)
-
-
     # pivot tables for cat vars
 
 
@@ -133,6 +128,9 @@ if __name__ == '__main__':
     if( len(sys.argv) != 2 ):
         raise Exception('usage: ./model.py train.csv')
 
-    data = pd.read_csv( sys.argv[1] )
-    basic_info(data)
-    #main(data)
+    train = pd.read_csv( sys.argv[1] )
+
+    basic_info(train)
+    var_formats(train)
+
+    #main(train)

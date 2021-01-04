@@ -99,7 +99,7 @@ def bar_charts(categorical_data):
         plot.show()
 
 
-def numerical_visualizations(train: pd.DataFrame, numerical_data):
+def numerical_visualizations(numerical_data: pd.DataFrame):
     # histograms/bar charts
     hist(numerical_data)
 
@@ -114,7 +114,7 @@ def main(train: pd.DataFrame):
     numerical_data = train[['Age', 'SibSp', 'Parch', 'Fare']]
     categorical_data = train[['Survived', 'Pclass', 'Sex', 'Ticket', 'Cabin', 'Embarked']]
 
-    numerical_visualizations(train, numerical_data)
+    numerical_visualizations(numerical_data)
     print( pd.pivot_table(train, index = 'Survived', values = numerical_data) )
 
     bar_charts(categorical_data)

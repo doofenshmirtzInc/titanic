@@ -1,4 +1,5 @@
 import sys
+import seaborn as sns
 import matplotlib.pyplot as plot
 import numpy as np
 import pandas as pd
@@ -10,12 +11,28 @@ import pandas as pd
 
 #### OVERVIEW OF THE STEPS
 # understand shape of the data (histograms, boxplots, etc)
+# -- understand nature of data [ .info(), .describe() ]
+# -- histograms, boxplots
+# -- correlation between metrics
 # data cleaning
+# -- value counts
+# -- tally missing values
 # data exploration
+# -- explore interesting themes based on knowledge of the data
+# ---- wealthy survive?
+# ---- by location
+# ---- age scatterplot with ticket price?
+# ---- young and wealth var?
+# ---- total spent
 # feature engineering
 # data preprocessing
+# -- preprocess data together or use a transformer?
+# -- use label for train and test
+# -- Scaling?
 # build basic model
+# -- model baseline
 # model tuning
+# -- model comparison with cv
 # ensemble model building
 # results
 
@@ -34,6 +51,31 @@ import pandas as pd
 # embarked: city of leave; C = cherbourg, Q = queenstown, S = southampton
 
 
+def basic_info(df: pd.DataFrame):
+    print('shape of data...........')
+    print(df.shape)
+
+    print('\ncolumns.........')
+    print(df.columns)
+
+    print('\nhead of the data.........')
+    # makes df print all cols so can scroll through and see values for all columns
+    pd.set_option('max_columns', None)
+    print(df.head())
+
+    #print('value_counts..............')
+    # passenger id is useless col
+    #print(df.value_counts(df['PassengerId'], sort=False))
+    #for col in df.columns:
+        #print(df.value_counts(df[col]))
+
+    print('\ndf info...............')
+    print( df.info() )
+    print('\ndf description...............')
+    print( df.describe() )
+    print('\nGetting numerical columns of the data...')
+    print(df.describe().columns)
+
 
 def hist(numerical_data):
     for i in numerical_data.columns:
@@ -45,38 +87,27 @@ def hist(numerical_data):
 def bar_charts(categorical_data):
     for i in categorical_data.columns:
         sns.barplot(categorical_data[i].value_counts().index, categorical_data[i].value_counts()).set_title(i)
-        plt.show()
+        plot.show()
 
 
 
 def main(train: pd.DataFrame):
 
-    print('df info...............')
-    print( train.info() )
-    print('df description...............')
-    print( train.describe() )
-    print('df columns.................')
-    print(train.columns)
-    print('Getting numerical columns of the data...')
-    print(train.describe().columns)
-
-    # makes df print all rows so can scroll through and see values for all columns
-    pd.set_option('max_rows', None)
-    # makes df print all cols so can scroll through and see values for all columns
-    pd.set_option('max_columns', None)
-    print(train.head())
-
     numerical_data = train[['Age', 'SibSp', 'Parch', 'Fare']]
     categorical_data = train[['Survived', 'Pclass', 'Sex', 'Ticket', 'Cabin', 'Embarked']]
+    print('head of the numerical data.........')
+    print(numerical_data.head())
+    print('head of the categorical data.........')
+    print(categorical_data.head())
 
 
     # histograms/bar charts
     hist(numerical_data)
 
     # correlations among the numerical variables
-    print(categorical_data.corr())
-    sns.heatmap(categorical_data.corr())
-    plt.show()
+    print(numerical_data.corr())
+    sns.heatmap(numerical_data.corr())
+    plot.show()
 
 
     # the pandas pivot table
@@ -102,7 +133,6 @@ if __name__ == '__main__':
     if( len(sys.argv) != 2 ):
         raise Exception('usage: ./model.py train.csv')
 
-
     data = pd.read_csv( sys.argv[1] )
-
-    main(data)
+    basic_info(data)
+    #main(data)

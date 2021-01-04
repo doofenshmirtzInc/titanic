@@ -20,7 +20,7 @@ import sys
 # -- young and wealthy variable?
 # -- total spent
 # feature engineering
-# preprocess data together of use a transformer?
+# preprocess data together or use a transformer?
 # -- use label for train and test
 # Scaling?
 # model baseline

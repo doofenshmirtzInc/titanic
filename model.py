@@ -114,11 +114,54 @@ def main(train: pd.DataFrame):
     numerical_data = train[['Age', 'SibSp', 'Parch', 'Fare']]
     categorical_data = train[['Survived', 'Pclass', 'Sex', 'Ticket', 'Cabin', 'Embarked']]
 
-    numerical_visualizations(numerical_data)
+
+    ## VISUALIZING NUMERICAL VARIABLES
+    #numerical_visualizations(numerical_data)
     print( pd.pivot_table(train, index = 'Survived', values = numerical_data) )
 
+    ## VISUALIZING CATEGORICAL VARIABLES
     bar_charts(categorical_data)
-    # pivot tables for cat vars
+
+    # pivot tables for cat vars:
+
+    # pivot table on class vs survival
+    # this pivot table points to the rich being the ones to survive
+    print( pd.pivot_table(train, index = 'Survived', columns = 'Pclass', values = 'Ticket', aggfunc = 'count') )
+    # pivot table on sex vs survival
+    # implies ladies first held
+    print(pd.pivot_table(train, index = 'Survived', columns = 'Sex', values = 'Ticket', aggfunc = 'count') )
+    # pivot table on source location vs survival
+    # seems like Q & S were twice as likely to die than survive
+    # C seem to have been slightly likely to survive overall
+    print(pd.pivot_table(train, index = 'Survived', columns = 'Embarked', values = 'Ticket', aggfunc = 'count') )
+
+
+    ## FEATURE ENGINEERING
+    # possibly telling features
+    # -- cabin letter (based on location and class/amt paid)
+    # -- person having multiple cabins (rich survive)
+    # -- person's title (venerated survive)
+
+    # cabin letter
+    train['cabin_letter'] = train.Cabin.apply(lambda x: str(x)[0])
+    print(train['cabin_letter'].value_counts())
+    print( pd.pivot_table(train, index = 'Survived', columns = 'cabin_letter', values = 'Name', aggfunc = 'count') )
+
+    # multiple cabins
+    train['num_cabins'] = train.Cabin.apply(lambda x: 0 if pd.isna(x) else len(x.split(' ')))
+    print(train.value_counts(train['num_cabins']))
+    print( pd.pivot_table(train, index = 'Survived', columns = 'num_cabins', values = 'Ticket', aggfunc = 'count') )
+
+    # the venerated
+    train['titles'] = train.Name.apply( lambda x: x.split(',')[1].split('.')[0].strip() )
+    print( train.value_counts(train['titles']) )
+    pd.set_option('max_columns', None)
+    print( pd.pivot_table(train, index = 'Survived', columns = 'titles', values = 'Ticket', aggfunc = 'count') )
+
+
+    ## PREPROCESSING
+    ## MODEL BUILDING
+    ## ENSEMBLING
 
 
 
@@ -130,7 +173,7 @@ if __name__ == '__main__':
 
     train = pd.read_csv( sys.argv[1] )
 
-    basic_info(train)
-    var_formats(train)
+    #basic_info(train)
+    #var_formats(train)
 
-    #main(train)
+    main(train)

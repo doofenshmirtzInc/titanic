@@ -1,57 +1,12 @@
-                Age       Fare     Parch     SibSp
-Survived
-0         30.626179  22.117887  0.329690  0.553734
-1         28.343690  48.395408  0.464912  0.473684
-n    687
-C     59
-B     47
-D     33
-E     32
-A     15
-F     13
-G      4
-T      1
-Name: cabin_letter, dtype: int64
-cabin_letter    A     B     C     D     E    F    G    T      n
-Survived
-0             8.0  12.0  24.0   8.0   8.0  5.0  2.0  1.0  481.0
-1             7.0  35.0  35.0  25.0  24.0  8.0  2.0  NaN  206.0
-num_cabins
-0    687
-1    180
-2     16
-3      6
-4      2
-dtype: int64
-num_cabins      0      1    2    3    4
-Survived
-0           481.0   58.0  7.0  3.0  NaN
-1           206.0  122.0  9.0  3.0  2.0
-titles
-Mr              517
-Miss            182
-Mrs             125
-Master           40
-Dr                7
-Rev               6
-Major             2
-Col               2
-Mlle              2
-Sir               1
-Ms                1
-Capt              1
-Mme               1
-Lady              1
-Jonkheer          1
-Don               1
-the Countess      1
-dtype: int64
-titles    Capt  Col  Don   Dr  Jonkheer  Lady  Major  Master   Miss  Mlle  \
-Survived
-0          1.0  1.0  1.0  4.0       1.0   NaN    1.0    17.0   55.0   NaN
-1          NaN  1.0  NaN  3.0       NaN   1.0    1.0    23.0  127.0   2.0
+Index(['Sex', 'Fare', 'Parch', 'num_cabins', 'Age', 'cabin_letter', 'Pclass',
+       'SibSp', 'Embarked'],
+      dtype='object')
+      Sex     Fare  Parch  num_cabins  ...  cabin_letter Pclass  SibSp  Embarked
+0    male   7.2500      0           0  ...             n      3      1         S
+1  female  71.2833      0           1  ...             C      1      1         C
+2  female   7.9250      0           0  ...             n      3      0         S
+3  female  53.1000      0           1  ...             C      1      1         S
+4    male   8.0500      0           0  ...             n      3      0         S
 
-titles    Mme     Mr   Mrs   Ms  Rev  Sir  the Countess
-Survived
-0         NaN  436.0  26.0  NaN  6.0  NaN           NaN
-1         1.0   81.0  99.0  1.0  NaN  1.0           1.0
+[5 rows x 9 columns]
+the accuracy of the base linear regression model is:	 nan

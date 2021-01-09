@@ -1,11 +1,12 @@
-import sys
-import seaborn as sns
-import matplotlib.pyplot as plot
-import numpy as np
-import pandas as pd
+# AUTHOR: JACK MCSHANE, MASTER OF COMPUTER SCIENCE STUDENT -- INDIANA UNIVERSIT BLOOMINGTON
+# ACKNOWLEDGEMENTS:
+# -- blah blah, Data School Youtube Channel
+# ---- href:
+# -- Ken Jee, Data Science something Youtube Channel
+# ---- href:
 
-
-
+# DESCRIPTION:
+# stuff
 ##### Script for preprocessing the data associated with the kaggle titanic dataset
 
 
@@ -58,6 +59,22 @@ import pandas as pd
 # values: columns of train to count
 # aggrfunc: way to make count; default='mean', 'count' is often useful
 
+import sys
+# DATA EXPLORATION IMPORTS
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plot
+# PREPROCESSING IMPORTS
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import make_column_transformer
+# MODEL BUILDING IMPORTS
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import cross_val_score
+from sklearn.pipeline import make_pipeline
+
+
 
 def basic_info(train: pd.DataFrame):
     print('shape: ', train.shape)
@@ -109,6 +126,29 @@ def numerical_visualizations(numerical_data: pd.DataFrame):
     plot.show()
 
 
+
+def preprocessing(train: pd.DataFrame):
+    #X = train.drop(labels=['PassengerId', 'Survived'], axis=1)
+    X = train.loc[train.Embarked.notna(), list(set(train.columns) - set(['PassengerId', 'Survived']))]
+    y = train.loc[train.Embarked.notna(), ['Survived']]
+
+    print(X.columns)
+    print(X.head())
+
+    # impute age category
+    # scale numeric values
+    # encode categorical variables
+    #ct = make_column_transformer(
+            #( SimpleImputer(), ['Age'] )
+            #( OneHotEncoder(), [] ),
+            #remainder='passthrough'
+    #)
+#
+    #linreg = LinearRegression()
+    #pipe = make_pipline(ct, linreg)
+    #print( 'the accuracy of the base linear regression model is:\t', cross_val_score(pipe, X, y, cv=5, scoring='accuracy').mean() )
+
+
 def main(train: pd.DataFrame):
 
     numerical_data = train[['Age', 'SibSp', 'Parch', 'Fare']]
@@ -117,23 +157,23 @@ def main(train: pd.DataFrame):
 
     ## VISUALIZING NUMERICAL VARIABLES
     #numerical_visualizations(numerical_data)
-    print( pd.pivot_table(train, index = 'Survived', values = numerical_data) )
+    #print( pd.pivot_table(train, index = 'Survived', values = numerical_data) )
 
     ## VISUALIZING CATEGORICAL VARIABLES
-    bar_charts(categorical_data)
+    #bar_charts(categorical_data)
 
     # pivot tables for cat vars:
 
     # pivot table on class vs survival
     # this pivot table points to the rich being the ones to survive
-    print( pd.pivot_table(train, index = 'Survived', columns = 'Pclass', values = 'Ticket', aggfunc = 'count') )
+    #print( pd.pivot_table(train, index = 'Survived', columns = 'Pclass', values = 'Ticket', aggfunc = 'count') )
     # pivot table on sex vs survival
     # implies ladies first held
-    print(pd.pivot_table(train, index = 'Survived', columns = 'Sex', values = 'Ticket', aggfunc = 'count') )
+    #print(pd.pivot_table(train, index = 'Survived', columns = 'Sex', values = 'Ticket', aggfunc = 'count') )
     # pivot table on source location vs survival
     # seems like Q & S were twice as likely to die than survive
     # C seem to have been slightly likely to survive overall
-    print(pd.pivot_table(train, index = 'Survived', columns = 'Embarked', values = 'Ticket', aggfunc = 'count') )
+    #print(pd.pivot_table(train, index = 'Survived', columns = 'Embarked', values = 'Ticket', aggfunc = 'count') )
 
 
     ## FEATURE ENGINEERING
@@ -144,23 +184,43 @@ def main(train: pd.DataFrame):
 
     # cabin letter
     train['cabin_letter'] = train.Cabin.apply(lambda x: str(x)[0])
-    print(train['cabin_letter'].value_counts())
-    print( pd.pivot_table(train, index = 'Survived', columns = 'cabin_letter', values = 'Name', aggfunc = 'count') )
+    #print(train['cabin_letter'].value_counts())
+    #print( pd.pivot_table(train, index = 'Survived', columns = 'cabin_letter', values = 'Name', aggfunc = 'count') )
 
     # multiple cabins
     train['num_cabins'] = train.Cabin.apply(lambda x: 0 if pd.isna(x) else len(x.split(' ')))
-    print(train.value_counts(train['num_cabins']))
-    print( pd.pivot_table(train, index = 'Survived', columns = 'num_cabins', values = 'Ticket', aggfunc = 'count') )
+    #print(train.value_counts(train['num_cabins']))
+    #print( pd.pivot_table(train, index = 'Survived', columns = 'num_cabins', values = 'Ticket', aggfunc = 'count') )
 
     # the venerated
-    train['titles'] = train.Name.apply( lambda x: x.split(',')[1].split('.')[0].strip() )
-    print( train.value_counts(train['titles']) )
-    pd.set_option('max_columns', None)
-    print( pd.pivot_table(train, index = 'Survived', columns = 'titles', values = 'Ticket', aggfunc = 'count') )
+    train['title'] = train.Name.apply( lambda x: x.split(',')[1].split('.')[0].strip() )
+    #print( train.value_counts(train['title']) )
+    #pd.set_option('max_columns', None)
+    #print( pd.pivot_table(train, index = 'Survived', columns = 'title', values = 'Ticket', aggfunc = 'count') )
 
 
     ## PREPROCESSING
+    drop_cols = set(['PassengerId', 'Survived', 'Name', 'Ticket', 'Cabin', 'title'])
+    X = train.loc[train.Embarked.notna(), list(set(train.columns) - drop_cols)]
+    y = train.loc[train.Embarked.notna(), ['Survived']]
+
+    print(X.columns)
+    print(X.head())
+
+    ct = make_column_transformer(
+            ( SimpleImputer(strategy='median'), ['Age'] ),
+            ( OneHotEncoder(), ['Sex', 'Embarked', 'cabin_letter'] ),
+            remainder='passthrough'
+    )
+
+    linreg = LinearRegression()
+    pipe = make_pipeline(ct, linreg)
+    print( 'the accuracy of the base linear regression model is:\t', cross_val_score(pipe, X, y, cv=5, scoring='neg_mean_absolute_error').mean() )
+
+
+    ## BUILD BASIC MODEL
     ## MODEL BUILDING
+    # models used:
     ## ENSEMBLING
 
 
@@ -175,5 +235,6 @@ if __name__ == '__main__':
 
     #basic_info(train)
     #var_formats(train)
-
     main(train)
+
+    #preprocessing(train)

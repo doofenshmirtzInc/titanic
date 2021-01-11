@@ -1,12 +1,12 @@
-Index(['Sex', 'Fare', 'Parch', 'num_cabins', 'Age', 'cabin_letter', 'Pclass',
-       'SibSp', 'Embarked'],
+Index(['Pclass', 'num_cabins', 'Parch', 'SibSp', 'cabin_letter', 'Fare', 'Sex',
+       'Age', 'Embarked'],
       dtype='object')
-      Sex     Fare  Parch  num_cabins  ...  cabin_letter Pclass  SibSp  Embarked
-0    male   7.2500      0           0  ...             n      3      1         S
-1  female  71.2833      0           1  ...             C      1      1         C
-2  female   7.9250      0           0  ...             n      3      0         S
-3  female  53.1000      0           1  ...             C      1      1         S
-4    male   8.0500      0           0  ...             n      3      0         S
+   Pclass  num_cabins  Parch  SibSp  ...     Fare     Sex   Age  Embarked
+0       3           0      0      1  ...   7.2500    male  22.0         S
+1       1           1      0      1  ...  71.2833  female  38.0         C
+2       3           0      0      0  ...   7.9250  female  26.0         S
+3       1           1      0      1  ...  53.1000  female  35.0         S
+4       3           0      0      0  ...   8.0500    male  35.0         S
 
 [5 rows x 9 columns]
 the accuracy of the base linear regression model is:	 nan

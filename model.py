@@ -71,6 +71,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import make_column_transformer
 # MODEL BUILDING IMPORTS
 from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.pipeline import make_pipeline
 
@@ -214,7 +215,8 @@ def main(train: pd.DataFrame):
     )
 
     linreg = LinearRegression()
-    pipe = make_pipeline(ct, linreg)
+    logreg = LogisticRegression()
+    pipe = make_pipeline(ct, logreg)
     print( 'the accuracy of the base linear regression model is:\t', cross_val_score(pipe, X, y, cv=5, scoring='neg_mean_absolute_error').mean() )
 
 

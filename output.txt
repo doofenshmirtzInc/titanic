@@ -1,12 +1,13 @@
-Index(['Pclass', 'num_cabins', 'Parch', 'SibSp', 'cabin_letter', 'Fare', 'Sex',
-       'Age', 'Embarked'],
-      dtype='object')
-   Pclass  num_cabins  Parch  SibSp  ...     Fare     Sex   Age  Embarked
-0       3           0      0      1  ...   7.2500    male  22.0         S
-1       1           1      0      1  ...  71.2833  female  38.0         C
-2       3           0      0      0  ...   7.9250  female  26.0         S
-3       1           1      0      1  ...  53.1000  female  35.0         S
-4       3           0      0      0  ...   8.0500    male  35.0         S
-
-[5 rows x 9 columns]
-the accuracy of the base linear regression model is:	 nan
+features that should be in X:	 Fare Pclass num_cabins Sex Age Parch SibSp Embarked
+number of features that should be in X:	 8
+<class 'pandas.core.frame.DataFrame'>
+(889, 8)
+<class 'numpy.ndarray'>
+(889,)
+0     7.2500
+1    71.2833
+2     7.9250
+3    53.1000
+4     8.0500
+Name: Fare, dtype: float64
+the accuracy of the base linear regression model is:	 -0.21144543896400686

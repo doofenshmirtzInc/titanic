@@ -133,8 +133,6 @@ def preprocessing(train: pd.DataFrame):
     X = train.loc[train.Embarked.notna(), list(set(train.columns) - set(['PassengerId', 'Survived']))]
     y = train.loc[train.Embarked.notna(), ['Survived']]
 
-    print(X.columns)
-    print(X.head())
 
     # impute age category
     # scale numeric values
@@ -201,26 +199,34 @@ def main(train: pd.DataFrame):
 
 
     ## PREPROCESSING
-    drop_cols = set(['PassengerId', 'Survived', 'Name', 'Ticket', 'Cabin', 'title'])
+    drop_cols = set(['PassengerId', 'Survived', 'Name', 'Ticket', 'Cabin', 'title', 'cabin_letter'])
     X = train.loc[train.Embarked.notna(), list(set(train.columns) - drop_cols)]
-    y = train.loc[train.Embarked.notna(), ['Survived']]
+    y = np.array(train.loc[train.Embarked.notna(), ['Survived']]).reshape(-1)
 
-    print(X.columns)
-    print(X.head())
 
+    print('features that should be in X:\t', *list(set(train.columns) - drop_cols ))
+    print('number of features that should be in X:\t', len( list(set(train.columns) - drop_cols )))
+    print(type(X))
+    print(X.shape)
+    print(type(y))
+    print(y.shape)
+    print(train.Fare.head())
+    #print(X.columns)
+    #print(X.head())
+#
     ct = make_column_transformer(
             ( SimpleImputer(strategy='median'), ['Age'] ),
-            ( OneHotEncoder(), ['Sex', 'Embarked', 'cabin_letter'] ),
+            ( OneHotEncoder(), ['Sex', 'Embarked'] ),
             remainder='passthrough'
     )
-
+#
     linreg = LinearRegression()
     logreg = LogisticRegression()
     pipe = make_pipeline(ct, logreg)
     print( 'the accuracy of the base linear regression model is:\t', cross_val_score(pipe, X, y, cv=5, scoring='neg_mean_absolute_error').mean() )
 
 
-    ## BUILD BASIC MODEL
+    # BUILD BASIC MODEL
     ## MODEL BUILDING
     # models used:
     ## ENSEMBLING
